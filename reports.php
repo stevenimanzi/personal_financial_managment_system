@@ -69,7 +69,7 @@ page_start('Reports', 'reports', $rangeLabel);
     <div class="field" data-custom-range><label for="to">To</label><input class="input" type="date" id="to" name="to" value="<?= e($to) ?>"></div>
     <div class="field"><label>&nbsp;</label><button class="btn btn-primary btn-sm" style="height:40px" type="submit"><?= icon('funnel') ?>Apply</button></div>
     <div class="field"><label>&nbsp;</label>
-        <div style="display:flex;gap:8px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button class="btn btn-ghost btn-sm" style="height:40px" type="button" data-print><?= icon('printer') ?>Print</button>
             <a class="btn btn-ghost btn-sm" style="height:40px" href="transactions.php?from=<?= e($from) ?>&to=<?= e($to) ?>&export=csv"><?= icon('arrow-down-tray') ?>CSV</a>
         </div>

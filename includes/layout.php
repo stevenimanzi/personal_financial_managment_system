@@ -145,7 +145,7 @@ function txn_row(array $t): string
     $sign = $t['type'] === 'income' ? '+' : ($t['type'] === 'expense' ? '-' : '');
     $ico = $t['type'] === 'income' ? 'arrow-down-circle' : ($t['type'] === 'expense' ? 'arrow-up-circle' : 'arrows-right-left');
 
-    return '<li class="txn"><span class="txn-icon txn-' . e($t['type']) . '">' . icon($ico) . '</span>'
+    return '<li><a class="txn" href="transaction.php?id=' . (int) $t['id'] . '"><span class="txn-icon txn-' . e($t['type']) . '">' . icon($ico) . '</span>'
         . '<div class="txn-body"><strong>' . e($title) . '</strong><span>' . e(implode(' · ', $meta)) . '</span></div>'
-        . '<div class="txn-side"><strong class="amt amt-' . e($t['type']) . '">' . $sign . e(money($t['amount'])) . '</strong><span>' . e(relative_day($t['txn_date'])) . '</span></div></li>';
+        . '<div class="txn-side"><strong class="amt amt-' . e($t['type']) . '">' . $sign . e(money($t['amount'])) . '</strong><span>' . e(relative_day($t['txn_date'])) . '</span></div></a></li>';
 }

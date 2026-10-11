@@ -75,10 +75,19 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
     </article>
 </section>
 
+<nav class="quick mt" aria-label="Quick actions">
+    <a class="quick-link" href="transaction.php?type=income"><?= icon('arrow-down-circle') ?><span>Add income</span></a>
+    <a class="quick-link" href="transaction.php?type=expense"><?= icon('arrow-up-circle') ?><span>Add expense</span></a>
+    <a class="quick-link" href="transaction.php?type=transfer"><?= icon('arrows-right-left') ?><span>Move money</span></a>
+    <a class="quick-link" href="budgets.php"><?= icon('chart-pie') ?><span>Set budget</span></a>
+    <a class="quick-link" href="decisions.php"><?= icon('calculator') ?><span>Check a purchase</span></a>
+    <a class="quick-link" href="reports.php"><?= icon('presentation-chart-line') ?><span>View reports</span></a>
+</nav>
+
 <section class="grid grid-main mt">
     <article class="card">
         <div class="card-head">
-            <div><h2>Cash flow</h2><p>Income and spending over the last 6 months</p></div>
+            <div><h2><?= icon('chart-bar') ?>Cash flow</h2><p>Income and spending over the last 6 months</p></div>
             <div class="legend"><span><i class="k-income"></i>Income</span><span><i class="k-expense"></i>Spending</span></div>
         </div>
         <div class="card-body">
@@ -90,7 +99,7 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
     </article>
 
     <article class="card">
-        <div class="card-head"><div><h2>Financial health</h2><p>Based on your recent activity</p></div></div>
+        <div class="card-head"><div><h2><?= icon('shield-check') ?>Financial health</h2><p>Based on your recent activity</p></div></div>
         <div class="card-body">
             <?php if ($health): ?>
                 <div class="score-card">
@@ -114,7 +123,7 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
 
 <section class="grid grid-main mt">
     <article class="card">
-        <div class="card-head"><div><h2>Recent transactions</h2><p>Your latest activity</p></div><a class="link-more" href="transactions.php">View all <?= icon('chevron-right', 'icon-sm') ?></a></div>
+        <div class="card-head"><div><h2><?= icon('clipboard-document-list') ?>Recent transactions</h2><p>Your latest activity</p></div><a class="link-more" href="transactions.php">View all <?= icon('chevron-right', 'icon-sm') ?></a></div>
         <div>
             <?php if ($recent): ?>
                 <ul class="txn-list">
@@ -127,7 +136,7 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
     </article>
 
     <article class="card">
-        <div class="card-head"><div><h2>Where it went</h2><p>Spending by category this month</p></div></div>
+        <div class="card-head"><div><h2><?= icon('chart-pie') ?>Where it went</h2><p>Spending by category this month</p></div></div>
         <div class="card-body">
             <?php if ($donutItems): ?>
                 <div class="donut-wrap" style="grid-template-columns:minmax(0,1fr)">
@@ -147,30 +156,31 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
 
 <section class="grid grid-3 mt">
     <article class="card">
-        <div class="card-head"><div><h2>Accounts</h2></div><a class="link-more" href="accounts.php">Manage <?= icon('chevron-right', 'icon-sm') ?></a></div>
+        <div class="card-head"><div><h2><?= icon('wallet') ?>Accounts</h2></div><a class="link-more" href="accounts.php">Manage <?= icon('chevron-right', 'icon-sm') ?></a></div>
         <div class="card-body">
             <div class="list-rows">
                 <?php foreach (array_filter($s['accounts'], fn($a) => !$a['is_archived']) as $a): ?>
-                    <div class="list-row">
+                    <a class="list-row is-link" href="transactions.php?account=<?= (int) $a['id'] ?>">
                         <span class="dot-ico" style="--c:<?= e($a['color']) ?>"><?= icon(account_icon($a['type'])) ?></span>
                         <div class="list-main"><strong><?= e($a['name']) ?></strong><span><?= e(account_types()[$a['type']]) ?></span></div>
                         <b class="amt"><?= e(money($a['balance'])) ?></b>
-                    </div>
+                        <?= icon('chevron-right', 'icon-sm row-go') ?>
+                    </a>
                 <?php endforeach; ?>
             </div>
         </div>
     </article>
 
     <article class="card">
-        <div class="card-head"><div><h2>Budgets</h2><p>This month</p></div><a class="link-more" href="budgets.php">Manage <?= icon('chevron-right', 'icon-sm') ?></a></div>
+        <div class="card-head"><div><h2><?= icon('chart-pie') ?>Budgets</h2><p>This month</p></div><a class="link-more" href="budgets.php">Manage <?= icon('chevron-right', 'icon-sm') ?></a></div>
         <div class="card-body">
             <?php if ($s['budgets']): ?>
                 <div class="list-rows">
                     <?php foreach (array_slice($s['budgets'], 0, 4) as $b): $tone = $b['ratio'] >= 1 ? 'bad' : ($b['ratio'] >= 0.85 ? 'warn' : ''); ?>
-                        <div class="list-row" style="display:block">
-                            <div style="display:flex;justify-content:space-between;margin-bottom:8px;gap:8px"><strong><?= e($b['name']) ?></strong><span style="font-size:13px;color:var(--muted)"><?= e(compact_number($b['spent'])) ?> / <?= e(compact_number($b['amount'])) ?></span></div>
+                        <a class="list-row is-link stacked" href="budgets.php">
+                            <div class="row-split"><strong><?= icon('tag', 'icon-sm') ?><?= e($b['name']) ?></strong><span><?= e(compact_number($b['spent'])) ?> / <?= e(compact_number($b['amount'])) ?></span></div>
                             <div class="progress <?= $tone ?>"><i style="width:<?= min(100, round($b['ratio'] * 100)) ?>%"></i></div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
@@ -180,18 +190,18 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
     </article>
 
     <article class="card">
-        <div class="card-head"><div><h2>Coming up</h2><p>Goals and debts</p></div></div>
+        <div class="card-head"><div><h2><?= icon('calendar-days') ?>Coming up</h2><p>Goals and debts</p></div></div>
         <div class="card-body">
             <?php
             $upcoming = [];
             foreach ($s['debts'] as $d) {
                 if ($d['due_date']) {
-                    $upcoming[] = ['date' => $d['due_date'], 'title' => $d['kind'] === 'i_owe' ? 'Pay ' . $d['person'] : $d['person'] . ' owes you', 'amount' => $d['remaining'], 'icon' => 'users', 'tone' => $d['kind'] === 'i_owe' ? 'expense' : 'income'];
+                    $upcoming[] = ['date' => $d['due_date'], 'title' => $d['kind'] === 'i_owe' ? 'Pay ' . $d['person'] : $d['person'] . ' owes you', 'amount' => $d['remaining'], 'href' => 'debts.php', 'icon' => 'users', 'tone' => $d['kind'] === 'i_owe' ? 'expense' : 'income'];
                 }
             }
             foreach ($s['goals'] as $g) {
                 if ($g['target_date'] && $g['saved_amount'] < $g['target_amount']) {
-                    $upcoming[] = ['date' => $g['target_date'], 'title' => $g['name'], 'amount' => $g['target_amount'] - $g['saved_amount'], 'icon' => 'flag', 'tone' => 'transfer'];
+                    $upcoming[] = ['date' => $g['target_date'], 'title' => $g['name'], 'amount' => $g['target_amount'] - $g['saved_amount'], 'href' => 'goals.php', 'icon' => 'flag', 'tone' => 'transfer'];
                 }
             }
             usort($upcoming, fn($a, $b) => strcmp($a['date'], $b['date']));
@@ -200,11 +210,12 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
             <?php if ($upcoming): ?>
                 <div class="list-rows">
                     <?php foreach ($upcoming as $u): $days = days_until($u['date']); ?>
-                        <div class="list-row">
+                        <a class="list-row is-link" href="<?= e($u['href']) ?>">
                             <span class="dot-ico" style="--c:var(--muted)"><?= icon($u['icon']) ?></span>
                             <div class="list-main"><strong><?= e($u['title']) ?></strong><span><?= $days < 0 ? abs($days) . ' days overdue' : e(fmt_date($u['date'])) ?></span></div>
                             <b class="amt amt-<?= e($u['tone']) ?>"><?= e(money($u['amount'])) ?></b>
-                        </div>
+                            <?= icon('chevron-right', 'icon-sm row-go') ?>
+                        </a>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
@@ -216,7 +227,7 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
 
 <?php if ($insights): ?>
 <section class="mt">
-    <div class="toolbar" style="margin-bottom:12px"><h2 class="section-title" style="margin:0">What to pay attention to</h2><a class="link-more" href="advisor.php">Open advisor <?= icon('chevron-right', 'icon-sm') ?></a></div>
+    <div class="toolbar toolbar-tight"><h2 class="section-title"><?= icon('light-bulb', 'icon-sm') ?>What to pay attention to</h2><a class="link-more" href="advisor.php">Open advisor <?= icon('chevron-right', 'icon-sm') ?></a></div>
     <div class="insights">
         <?php foreach ($insights as $i): ?>
             <div class="insight <?= e($i['level']) ?>"><span class="insight-ico"><?= icon($i['icon']) ?></span><div><h3><?= e($i['title']) ?></h3><p><?= e($i['text']) ?></p></div></div>
