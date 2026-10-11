@@ -110,6 +110,18 @@ Then open `http://localhost:8080` and create your account. Default accounts (cas
 
 To host it on Apache, point the document root at the project folder. The included `.htaccess` blocks direct access to the `config`, `includes` and `database` folders and disables directory listing. On Nginx, add an equivalent `deny` rule for those folders.
 
+## Deploying to shared hosting
+
+The steps below describe a typical free host such as InfinityFree, but any host with PHP 8.1 or newer and MySQL works the same way.
+
+1. Create a MySQL database in the hosting control panel. Shared hosts prefix the database and user names, for example `if0_12345678_budget`, and give you a separate MySQL host name instead of `localhost`.
+2. Open phpMyAdmin, select that database and import the SQL file. A fresh install can use `database/schema.sql` after deleting its first two lines, `CREATE DATABASE` and `USE`, because the database already exists. An export of your own data can be imported as it is.
+3. Upload every project file into the public folder of the host, usually `htdocs`.
+4. Create `config/config.php` on the server from `config/config.example.php` and fill in the host name, database name, user and password shown in the control panel.
+5. Open the site address and sign in. The `.htaccess` file blocks direct access to the `config`, `includes` and `database` folders, so SQL files and credentials are never served.
+
+Exported SQL files that contain real accounts are listed in `.gitignore` so they are never pushed to the repository.
+
 ## Configuration
 
 All settings live in `config/config.php`.
