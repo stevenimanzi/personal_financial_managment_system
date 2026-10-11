@@ -78,22 +78,22 @@ page_start('Reports', 'reports', $rangeLabel);
 
 <section class="grid grid-4 mt keep-2">
     <article class="card stat">
-        <div class="stat-top"><span class="stat-label">Income</span><span class="stat-ico income"><?= icon('arrow-down-circle') ?></span></div>
+        <div class="stat-top"><span class="stat-label">Income</span></div>
         <div class="stat-value"><?= e(money($totals['income'])) ?></div>
         <div class="stat-note"><?= $totals['income_count'] ?> entries</div>
     </article>
     <article class="card stat">
-        <div class="stat-top"><span class="stat-label">Spending</span><span class="stat-ico expense"><?= icon('arrow-up-circle') ?></span></div>
+        <div class="stat-top"><span class="stat-label">Spending</span></div>
         <div class="stat-value"><?= e(money($totals['expense'])) ?></div>
         <div class="stat-note"><?= e(money($avgDaily)) ?> per day</div>
     </article>
     <article class="card stat">
-        <div class="stat-top"><span class="stat-label">Net savings</span><span class="stat-ico info"><?= icon('banknotes') ?></span></div>
+        <div class="stat-top"><span class="stat-label">Net savings</span></div>
         <div class="stat-value <?= $totals['net'] < 0 ? 'amt-expense' : '' ?>"><?= e(money($totals['net'])) ?></div>
         <div class="stat-note"><?= $prevTotals['net'] != 0 || $prevTotals['income'] > 0 ? 'Previous period ' . e(money($prevTotals['net'])) : 'No earlier period to compare' ?></div>
     </article>
     <article class="card stat">
-        <div class="stat-top"><span class="stat-label">Savings rate</span><span class="stat-ico warn"><?= icon('chart-pie') ?></span></div>
+        <div class="stat-top"><span class="stat-label">Savings rate</span></div>
         <div class="stat-value"><?= $totals['rate'] === null ? '-' : e(percent($totals['rate'])) ?></div>
         <div class="stat-note">Target <?= (int) $user['savings_target_pct'] ?>%</div>
     </article>
@@ -103,7 +103,7 @@ page_start('Reports', 'reports', $rangeLabel);
     <article class="card">
         <div class="card-head">
             <div><h2>Income vs spending</h2><p><?= $useMonthly ? 'By month' : 'By day' ?></p></div>
-            <div class="legend"><span><i style="background:var(--income)"></i>Income</span><span><i style="background:var(--expense)"></i>Spending</span></div>
+            <div class="legend"><span><i class="k-income"></i>Income</span><span><i class="k-expense"></i>Spending</span></div>
         </div>
         <div class="card-body">
             <?= chart_bars($labels, [
@@ -203,7 +203,7 @@ page_start('Reports', 'reports', $rangeLabel);
     <?php foreach (['Biggest expenses' => $topExpenses, 'Biggest income' => $topIncome] as $heading => $rows): ?>
         <article class="card">
             <div class="card-head"><div><h2><?= e($heading) ?></h2></div></div>
-            <div style="padding-top:12px">
+            <div>
                 <?php if ($rows): ?>
                     <ul class="txn-list"><?php foreach ($rows as $t) { echo txn_row($t + ['to_account_name' => null]); } ?></ul>
                 <?php else: ?>

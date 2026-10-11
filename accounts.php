@@ -17,7 +17,7 @@ if (is_post()) {
         $type = post('type');
         $opening = post('opening_balance') === '' ? 0.0 : parse_amount(ltrim(post('opening_balance'), '-'));
         $negative = str_starts_with(post('opening_balance'), '-');
-        $color = valid_color(post('color'), '#0d9488');
+        $color = valid_color(post('color'), '#1f6fb8');
 
         if ($name === '' || !isset(account_types()[$type]) || $opening === null) {
             flash('error', 'Enter a name, choose a type and use a valid opening balance.');
@@ -68,7 +68,7 @@ page_start('Accounts', 'accounts', 'Where your money is kept');
     <?php foreach ($active as $a): ?>
         <article class="card tile">
             <div class="tile-head">
-                <span class="dot-ico" style="background:<?= e($a['color']) ?>"><?= icon(account_icon($a['type'])) ?></span>
+                <span class="dot-ico" style="--c:<?= e($a['color']) ?>"><?= icon(account_icon($a['type'])) ?></span>
                 <div class="list-main"><strong><?= e($a['name']) ?></strong><span><?= e(account_types()[$a['type']]) ?></span></div>
                 <div class="tile-actions">
                     <button class="icon-btn sm" type="button" aria-label="Edit" data-open-dialog="accountDialog" data-title="Edit account" data-fill="<?= e(json_encode(['id' => $a['id'], 'name' => $a['name'], 'type' => $a['type'], 'opening_balance' => $a['opening_balance'] + 0, 'color' => $a['color']])) ?>"><?= icon('pencil-square') ?></button>
@@ -94,7 +94,7 @@ page_start('Accounts', 'accounts', 'Where your money is kept');
         <div class="list-rows">
             <?php foreach ($archived as $a): ?>
                 <div class="list-row">
-                    <span class="dot-ico" style="background:<?= e($a['color']) ?>;opacity:.6"><?= icon(account_icon($a['type'])) ?></span>
+                    <span class="dot-ico" style="--c:<?= e($a['color']) ?>;opacity:.6"><?= icon(account_icon($a['type'])) ?></span>
                     <div class="list-main"><strong><?= e($a['name']) ?></strong><span><?= e(money($a['balance'])) ?></span></div>
                     <form method="post"><?= csrf_field() ?><input type="hidden" name="action" value="archive"><input type="hidden" name="id" value="<?= (int) $a['id'] ?>"><button class="btn btn-ghost btn-sm" type="submit"><?= icon('arrow-uturn-left', 'icon-sm') ?>Restore</button></form>
                     <form method="post" data-confirm="This permanently removes the account. It only works when no transactions use it." data-confirm-title="Delete account?"><?= csrf_field() ?><input type="hidden" name="action" value="delete"><input type="hidden" name="id" value="<?= (int) $a['id'] ?>"><button class="icon-btn sm danger" type="submit" aria-label="Delete"><?= icon('trash') ?></button></form>

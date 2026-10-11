@@ -35,7 +35,7 @@ function page_start(string $title, string $active, string $subtitle = ''): void
     echo '<title>' . e($fullTitle) . '</title>';
     echo '<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>';
     echo '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
-    echo '<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">';
+    echo '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">';
     echo '<link rel="stylesheet" href="assets/css/app.css?v=' . filemtime(ROOT . '/assets/css/app.css') . '">';
     echo '</head><body class="app">';
     echo '<div class="scrim" data-sidebar-close></div>';
@@ -43,7 +43,7 @@ function page_start(string $title, string $active, string $subtitle = ''): void
     echo '<button class="icon-btn sidebar-close" type="button" data-sidebar-close aria-label="Close menu">' . icon('x-mark') . '</button></div><nav class="nav">';
 
     foreach (nav_items() as $group => $items) {
-        echo '<div class="nav-group"><span class="nav-label">' . e($group) . '</span>';
+        echo '<div class="nav-group" aria-label="' . e($group) . '">';
         foreach ($items as [$key, $label, $ico, $href]) {
             echo '<a class="nav-link' . ($key === $active ? ' is-active' : '') . '" href="' . e($href) . '">' . icon($ico) . '<span>' . e($label) . '</span></a>';
         }
@@ -57,16 +57,18 @@ function page_start(string $title, string $active, string $subtitle = ''): void
 
     echo '<div class="shell"><header class="topbar">';
     echo '<button class="icon-btn menu-btn" type="button" data-sidebar-open aria-label="Open menu">' . icon('bars-3') . '</button>';
-    echo '<div class="topbar-title"><h1>' . e($title) . '</h1>';
-    echo '<p>' . e($subtitle !== '' ? $subtitle : (new DateTimeImmutable())->format('l, d F Y')) . '</p></div>';
+    echo '<span class="topbar-section">' . e(APP_NAME) . '</span>';
+    echo '<form class="search" method="get" action="transactions.php" role="search">' . icon('magnifying-glass', 'icon-sm') . '<input type="search" name="q" placeholder="Search transactions" aria-label="Search transactions"></form>';
     echo '<div class="topbar-actions">';
-    echo '<a class="btn btn-primary btn-compact" href="transaction.php">' . icon('plus') . '<span>Add transaction</span></a>';
+    echo '<a class="btn btn-primary" href="transaction.php">' . icon('plus', 'icon-sm') . '<span>Add transaction</span></a>';
     echo '<button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle theme"><span class="theme-sun">' . icon('sun') . '</span><span class="theme-moon">' . icon('moon') . '</span></button>';
-    echo '<div class="menu"><button class="avatar-btn" type="button" data-menu-toggle aria-label="Account menu"><span class="avatar">' . e(initials($user['name'])) . '</span><span class="avatar-name">' . e(explode(' ', $user['name'])[0]) . '</span>' . icon('chevron-down', 'icon-sm') . '</button>';
+    echo '<div class="menu"><button class="avatar-btn" type="button" data-menu-toggle aria-label="Account menu"><span class="avatar">' . e(initials($user['name'])) . '</span><span class="avatar-name">' . e($user['name']) . '</span>' . icon('chevron-down', 'icon-sm') . '</button>';
     echo '<div class="menu-panel"><div class="menu-user"><strong>' . e($user['name']) . '</strong><span>' . e($user['email']) . '</span></div>';
     echo '<a href="profile.php">' . icon('user-circle') . 'Profile & settings</a>';
     echo '<form method="post" action="logout.php">' . csrf_field() . '<button type="submit">' . icon('arrow-right-on-rectangle') . 'Sign out</button></form></div></div>';
     echo '</div></header><main class="content">';
+    echo '<div class="page-head"><h1>' . e($title) . '</h1>';
+    echo '<p>' . e($subtitle !== '' ? $subtitle : (new DateTimeImmutable())->format('l, d F Y')) . '</p></div>';
 
     if ($flashes) {
         echo '<div class="flashes">';
@@ -127,7 +129,6 @@ function empty_state(string $iconName, string $title, string $text, string $acti
 function txn_row(array $t): string
 {
     $isTransfer = $t['type'] === 'transfer';
-    $color = $isTransfer ? '#64748b' : ($t['category_color'] ?? '#94a3b8');
     $title = $t['reason'] !== '' ? $t['reason'] : ($isTransfer ? 'Transfer' : ($t['category_name'] ?? 'Uncategorised'));
     $meta = [];
 
@@ -144,7 +145,7 @@ function txn_row(array $t): string
     $sign = $t['type'] === 'income' ? '+' : ($t['type'] === 'expense' ? '-' : '');
     $ico = $t['type'] === 'income' ? 'arrow-down-circle' : ($t['type'] === 'expense' ? 'arrow-up-circle' : 'arrows-right-left');
 
-    return '<li class="txn"><span class="txn-icon" style="--c:' . e($color) . '">' . icon($ico) . '</span>'
+    return '<li class="txn"><span class="txn-icon txn-' . e($t['type']) . '">' . icon($ico) . '</span>'
         . '<div class="txn-body"><strong>' . e($title) . '</strong><span>' . e(implode(' · ', $meta)) . '</span></div>'
         . '<div class="txn-side"><strong class="amt amt-' . e($t['type']) . '">' . $sign . e(money($t['amount'])) . '</strong><span>' . e(relative_day($t['txn_date'])) . '</span></div></li>';
 }

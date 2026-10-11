@@ -67,7 +67,7 @@ function chart_bars(array $labels, array $series, int $height = 280): string
             $x = $gx + $k * ($barW + $gap);
             $y = $top + $plotH - $h;
             if ($value > 0) {
-                $svg .= '<rect class="' . e($s['class']) . '" x="' . round($x, 1) . '" y="' . round($y, 1) . '" width="' . round($barW, 1) . '" height="' . round(max($h, 1), 1) . '" rx="4"><title>' . e($label . ' - ' . $s['name'] . ': ' . money($value)) . '</title></rect>';
+                $svg .= '<rect class="' . e($s['class']) . '" x="' . round($x, 1) . '" y="' . round($y, 1) . '" width="' . round($barW, 1) . '" height="' . round(max($h, 1), 1) . '" rx="2"><title>' . e($label . ' - ' . $s['name'] . ': ' . money($value)) . '</title></rect>';
             }
         }
         if ($i % $labelEvery === 0) {

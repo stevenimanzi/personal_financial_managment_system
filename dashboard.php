@@ -52,24 +52,24 @@ $greeting = $hour < 12 ? 'Good morning' : ($hour < 18 ? 'Good afternoon' : 'Good
 page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name'])[0]);
 ?>
 
-<section class="grid grid-4">
+<section class="grid grid-4 keep-2">
     <article class="card stat">
-        <div class="stat-top"><span class="stat-label">Total balance</span><span class="stat-ico"><?= icon('wallet') ?></span></div>
+        <div class="stat-top"><span class="stat-label">Total balance</span></div>
         <div class="stat-value"><?= e(money($s['liquid'])) ?></div>
         <div class="stat-note">Across <?= count(array_filter($s['accounts'], fn($a) => !$a['is_archived'])) ?> accounts</div>
     </article>
     <article class="card stat">
-        <div class="stat-top"><span class="stat-label">Income this month</span><span class="stat-ico income"><?= icon('arrow-down-circle') ?></span></div>
+        <div class="stat-top"><span class="stat-label">Income this month</span></div>
         <div class="stat-value"><?= e(money($cur['income'])) ?></div>
         <div class="stat-note"><?= delta_badge($cur['income'], $prevSame['income'], true) ?> vs same days last month</div>
     </article>
     <article class="card stat">
-        <div class="stat-top"><span class="stat-label">Spent this month</span><span class="stat-ico expense"><?= icon('arrow-up-circle') ?></span></div>
+        <div class="stat-top"><span class="stat-label">Spent this month</span></div>
         <div class="stat-value"><?= e(money($cur['expense'])) ?></div>
         <div class="stat-note"><?= delta_badge($cur['expense'], $prevSame['expense'], false) ?> vs same days last month</div>
     </article>
     <article class="card stat">
-        <div class="stat-top"><span class="stat-label">Saved this month</span><span class="stat-ico info"><?= icon('banknotes') ?></span></div>
+        <div class="stat-top"><span class="stat-label">Saved this month</span></div>
         <div class="stat-value"><?= e(money($cur['net'])) ?></div>
         <div class="stat-note"><?= $cur['rate'] === null ? 'No income recorded yet' : 'Savings rate <b>' . e(percent($cur['rate'])) . '</b>' ?></div>
     </article>
@@ -79,7 +79,7 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
     <article class="card">
         <div class="card-head">
             <div><h2>Cash flow</h2><p>Income and spending over the last 6 months</p></div>
-            <div class="legend"><span><i style="background:var(--income)"></i>Income</span><span><i style="background:var(--expense)"></i>Spending</span></div>
+            <div class="legend"><span><i class="k-income"></i>Income</span><span><i class="k-expense"></i>Spending</span></div>
         </div>
         <div class="card-body">
             <?= chart_bars($labels, [
@@ -115,7 +115,7 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
 <section class="grid grid-main mt">
     <article class="card">
         <div class="card-head"><div><h2>Recent transactions</h2><p>Your latest activity</p></div><a class="link-more" href="transactions.php">View all <?= icon('chevron-right', 'icon-sm') ?></a></div>
-        <div style="padding-top:12px">
+        <div>
             <?php if ($recent): ?>
                 <ul class="txn-list">
                     <?php foreach ($recent as $t): ?><?= txn_row($t) ?><?php endforeach; ?>
@@ -152,7 +152,7 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
             <div class="list-rows">
                 <?php foreach (array_filter($s['accounts'], fn($a) => !$a['is_archived']) as $a): ?>
                     <div class="list-row">
-                        <span class="dot-ico" style="background:<?= e($a['color']) ?>"><?= icon(account_icon($a['type'])) ?></span>
+                        <span class="dot-ico" style="--c:<?= e($a['color']) ?>"><?= icon(account_icon($a['type'])) ?></span>
                         <div class="list-main"><strong><?= e($a['name']) ?></strong><span><?= e(account_types()[$a['type']]) ?></span></div>
                         <b class="amt"><?= e(money($a['balance'])) ?></b>
                     </div>
@@ -201,7 +201,7 @@ page_start('Dashboard', 'dashboard', $greeting . ', ' . explode(' ', $user['name
                 <div class="list-rows">
                     <?php foreach ($upcoming as $u): $days = days_until($u['date']); ?>
                         <div class="list-row">
-                            <span class="dot-ico" style="background:var(--surface-2);color:var(--ink-2)"><?= icon($u['icon']) ?></span>
+                            <span class="dot-ico" style="--c:var(--muted)"><?= icon($u['icon']) ?></span>
                             <div class="list-main"><strong><?= e($u['title']) ?></strong><span><?= $days < 0 ? abs($days) . ' days overdue' : e(fmt_date($u['date'])) ?></span></div>
                             <b class="amt amt-<?= e($u['tone']) ?>"><?= e(money($u['amount'])) ?></b>
                         </div>

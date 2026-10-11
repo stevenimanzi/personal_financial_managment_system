@@ -75,7 +75,7 @@ page_start('Categories', 'categories', 'Group your money by source and purpose')
                     <div class="list-rows">
                         <?php foreach ($groups[$type] as $c): ?>
                             <div class="list-row">
-                                <span class="dot-ico" style="background:<?= e($c['color']) ?>"><?= icon($type === 'income' ? 'arrow-down-circle' : 'arrow-up-circle') ?></span>
+                                <span class="dot-ico" style="--c:<?= e($c['color']) ?>"><?= icon($type === 'income' ? 'arrow-down-circle' : 'arrow-up-circle') ?></span>
                                 <div class="list-main"><strong><?= e($c['name']) ?></strong><span><?= (int) $c['uses'] ?> <?= (int) $c['uses'] === 1 ? 'transaction' : 'transactions' ?></span></div>
                                 <b class="amt amt-<?= e($type) ?>" style="font-size:14px"><?= e(money($c['month_total'])) ?></b>
                                 <button class="icon-btn sm" type="button" aria-label="Edit" data-open-dialog="categoryDialog" data-title="Edit category" data-fill="<?= e(json_encode(['id' => $c['id'], 'name' => $c['name'], 'type' => $c['type'], 'color' => $c['color']])) ?>"><?= icon('pencil-square') ?></button>

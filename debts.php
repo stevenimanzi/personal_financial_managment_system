@@ -72,7 +72,7 @@ function debt_card(array $d): void
     ?>
     <article class="card tile">
         <div class="tile-head">
-            <span class="dot-ico" style="background:<?= $d['kind'] === 'i_owe' ? 'var(--expense)' : 'var(--income)' ?>"><?= icon($d['kind'] === 'i_owe' ? 'arrow-up-circle' : 'arrow-down-circle') ?></span>
+            <span class="dot-ico" style="--c:<?= $d['kind'] === 'i_owe' ? 'var(--expense)' : 'var(--income)' ?>"><?= icon($d['kind'] === 'i_owe' ? 'arrow-up-circle' : 'arrow-down-circle') ?></span>
             <div class="list-main"><strong><?= e($d['person']) ?></strong><span><?= e($d['reason'] !== '' ? $d['reason'] : ($d['kind'] === 'i_owe' ? 'You owe' : 'Owes you')) ?></span></div>
             <div class="tile-actions">
                 <button class="icon-btn sm" type="button" aria-label="Edit" data-open-dialog="debtDialog" data-title="Edit record" data-fill="<?= e(json_encode(['id' => $d['id'], 'kind' => $d['kind'], 'person' => $d['person'], 'amount' => $d['amount'] + 0, 'due_date' => $d['due_date'], 'reason' => $d['reason']])) ?>"><?= icon('pencil-square') ?></button>
@@ -105,8 +105,8 @@ function debt_card(array $d): void
 </div>
 
 <section class="grid grid-even" style="margin-bottom:20px">
-    <article class="card stat"><div class="stat-top"><span class="stat-label">You owe</span><span class="stat-ico expense"><?= icon('arrow-up-circle') ?></span></div><div class="stat-value"><?= e(money($totals['i_owe'])) ?></div><div class="stat-note"><?= count($sections['i_owe']) ?> open</div></article>
-    <article class="card stat"><div class="stat-top"><span class="stat-label">Owed to you</span><span class="stat-ico income"><?= icon('arrow-down-circle') ?></span></div><div class="stat-value"><?= e(money($totals['owed_to_me'])) ?></div><div class="stat-note"><?= count($sections['owed_to_me']) ?> open</div></article>
+    <article class="card stat"><div class="stat-top"><span class="stat-label">You owe</span></div><div class="stat-value"><?= e(money($totals['i_owe'])) ?></div><div class="stat-note"><?= count($sections['i_owe']) ?> open</div></article>
+    <article class="card stat"><div class="stat-top"><span class="stat-label">Owed to you</span></div><div class="stat-value"><?= e(money($totals['owed_to_me'])) ?></div><div class="stat-note"><?= count($sections['owed_to_me']) ?> open</div></article>
 </section>
 
 <?php foreach (['i_owe' => 'Money you owe', 'owed_to_me' => 'Money owed to you'] as $kind => $heading): ?>

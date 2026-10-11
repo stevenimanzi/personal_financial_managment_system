@@ -232,7 +232,7 @@ function checked($current, $value): string
 
 function palette(): array
 {
-    return ['#0d9488', '#2563eb', '#7c3aed', '#db2777', '#ea580c', '#ca8a04', '#16a34a', '#0891b2', '#dc2626', '#4f46e5', '#64748b', '#be185d'];
+    return ['#1f6fb8', '#1b946a', '#7a5cc7', '#c75c8a', '#d9822b', '#b8962e', '#3f9aa6', '#5b6b82', '#d3453c', '#4a63c9', '#8a95a5', '#a3523a'];
 }
 
 function valid_color(string $color, string $fallback = '#64748b'): string
@@ -313,24 +313,24 @@ function month_bounds(int $offset = 0): array
 function default_categories(): array
 {
     return [
-        ['Salary', 'income', '#0d9488'],
-        ['Business', 'income', '#2563eb'],
-        ['Freelance', 'income', '#7c3aed'],
-        ['Gifts received', 'income', '#db2777'],
-        ['Interest & returns', 'income', '#ca8a04'],
-        ['Other income', 'income', '#64748b'],
-        ['Food & groceries', 'expense', '#ea580c'],
-        ['Rent & housing', 'expense', '#4f46e5'],
-        ['Transport', 'expense', '#0891b2'],
-        ['Utilities', 'expense', '#ca8a04'],
-        ['Airtime & internet', 'expense', '#2563eb'],
-        ['Health', 'expense', '#dc2626'],
-        ['Education', 'expense', '#7c3aed'],
-        ['Entertainment', 'expense', '#db2777'],
-        ['Shopping', 'expense', '#be185d'],
-        ['Family support', 'expense', '#16a34a'],
-        ['Savings & investment', 'expense', '#0d9488'],
-        ['Other expenses', 'expense', '#64748b'],
+        ['Salary', 'income', '#1f6fb8'],
+        ['Business', 'income', '#1b946a'],
+        ['Freelance', 'income', '#7a5cc7'],
+        ['Gifts received', 'income', '#c75c8a'],
+        ['Interest & returns', 'income', '#b8962e'],
+        ['Other income', 'income', '#8a95a5'],
+        ['Food & groceries', 'expense', '#d9822b'],
+        ['Rent & housing', 'expense', '#4a63c9'],
+        ['Transport', 'expense', '#3f9aa6'],
+        ['Utilities', 'expense', '#b8962e'],
+        ['Airtime & internet', 'expense', '#2f80c9'],
+        ['Health', 'expense', '#d3453c'],
+        ['Education', 'expense', '#7a5cc7'],
+        ['Entertainment', 'expense', '#c75c8a'],
+        ['Shopping', 'expense', '#a3523a'],
+        ['Family support', 'expense', '#1b946a'],
+        ['Savings & investment', 'expense', '#5b6b82'],
+        ['Other expenses', 'expense', '#8a95a5'],
     ];
 }
 
@@ -340,7 +340,7 @@ function seed_user_defaults(int $userId): void
         db_exec('INSERT IGNORE INTO categories (user_id, name, type, color) VALUES (?, ?, ?, ?)', [$userId, $name, $type, $color]);
     }
 
-    $accounts = [['Cash', 'cash', '#16a34a'], ['Mobile money', 'mobile', '#ca8a04'], ['Bank account', 'bank', '#2563eb']];
+    $accounts = [['Cash', 'cash', '#1b946a'], ['Mobile money', 'mobile', '#d9822b'], ['Bank account', 'bank', '#1f6fb8']];
     foreach ($accounts as [$name, $type, $color]) {
         db_exec('INSERT INTO accounts (user_id, name, type, opening_balance, color) VALUES (?, ?, ?, 0, ?)', [$userId, $name, $type, $color]);
     }

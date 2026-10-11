@@ -55,22 +55,16 @@ if (is_post()) {
 auth_start('Create account');
 ?>
 <h1>Create your account</h1>
-<p class="sub">It takes a minute and you can start recording right away.</p>
+<p class="sub">It takes a minute and you can start recording right away</p>
 
 <?php if ($errors): ?>
-    <div class="flash flash-error" style="margin-bottom:18px"><?= icon('exclamation-circle') ?><span><?= e(implode(' ', $errors)) ?></span></div>
+    <div class="flash flash-error"><?= icon('exclamation-circle') ?><span><?= e(implode(' ', $errors)) ?></span></div>
 <?php endif; ?>
 
 <form method="post" novalidate>
     <?= csrf_field() ?>
-    <div class="field">
-        <label for="name">Full name</label>
-        <input class="input" type="text" id="name" name="name" value="<?= e($old['name']) ?>" autocomplete="name" required autofocus>
-    </div>
-    <div class="field">
-        <label for="email">Email address</label>
-        <input class="input" type="email" id="email" name="email" value="<?= e($old['email']) ?>" autocomplete="email" placeholder="you@example.com" required>
-    </div>
+    <?= text_field('name', 'Full name', 'user', ['type' => 'text', 'value' => $old['name'], 'autocomplete' => 'name', 'placeholder' => 'Enter your full name', 'required' => true, 'autofocus' => true]) ?>
+    <?= text_field('email', 'Email', 'envelope', ['type' => 'email', 'value' => $old['email'], 'autocomplete' => 'email', 'placeholder' => 'Enter your email', 'required' => true]) ?>
     <div class="field">
         <label for="currency">Currency</label>
         <select class="input" id="currency" name="currency">
@@ -81,7 +75,7 @@ auth_start('Create account');
     </div>
     <?= password_field('password', 'Password', 'new-password', true) ?>
     <?= password_field('password_confirm', 'Confirm password', 'new-password') ?>
-    <button class="btn btn-primary btn-block" type="submit" style="height:48px">Create account</button>
+    <button class="btn btn-primary btn-block btn-lg" type="submit">Create account</button>
 </form>
 
 <p class="auth-switch">Already have an account? <a href="login.php">Sign in</a></p>

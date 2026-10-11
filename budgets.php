@@ -53,9 +53,9 @@ page_start('Budgets', 'budgets', $today->format('F Y') . ' · ' . $daysLeft . ' 
 
 <?php if ($budgets): ?>
 <section class="grid grid-3" style="margin-bottom:20px">
-    <article class="card stat"><div class="stat-top"><span class="stat-label">Budgeted</span><span class="stat-ico"><?= icon('chart-pie') ?></span></div><div class="stat-value"><?= e(money($budgeted)) ?></div></article>
-    <article class="card stat"><div class="stat-top"><span class="stat-label">Spent so far</span><span class="stat-ico expense"><?= icon('arrow-up-circle') ?></span></div><div class="stat-value"><?= e(money($spent)) ?></div><div class="stat-note"><?= $budgeted > 0 ? e(percent($spent / $budgeted * 100)) . ' of total budget' : '' ?></div></article>
-    <article class="card stat"><div class="stat-top"><span class="stat-label">Remaining</span><span class="stat-ico income"><?= icon('banknotes') ?></span></div><div class="stat-value"><?= e(money($budgeted - $spent)) ?></div><div class="stat-note"><?= $budgeted - $spent > 0 ? 'About ' . e(money(($budgeted - $spent) / max(1, $daysLeft))) . ' a day' : 'Over budget overall' ?></div></article>
+    <article class="card stat"><div class="stat-top"><span class="stat-label">Budgeted</span></div><div class="stat-value"><?= e(money($budgeted)) ?></div></article>
+    <article class="card stat"><div class="stat-top"><span class="stat-label">Spent so far</span></div><div class="stat-value"><?= e(money($spent)) ?></div><div class="stat-note"><?= $budgeted > 0 ? e(percent($spent / $budgeted * 100)) . ' of total budget' : '' ?></div></article>
+    <article class="card stat"><div class="stat-top"><span class="stat-label">Remaining</span></div><div class="stat-value"><?= e(money($budgeted - $spent)) ?></div><div class="stat-note"><?= $budgeted - $spent > 0 ? 'About ' . e(money(($budgeted - $spent) / max(1, $daysLeft))) . ' a day' : 'Over budget overall' ?></div></article>
 </section>
 
 <div class="tile-grid">
@@ -65,7 +65,7 @@ page_start('Budgets', 'budgets', $today->format('F Y') . ' · ' . $daysLeft . ' 
         ?>
         <article class="card tile">
             <div class="tile-head">
-                <span class="dot-ico" style="background:<?= e($b['color']) ?>"><?= icon('tag') ?></span>
+                <span class="dot-ico" style="--c:<?= e($b['color']) ?>"><?= icon('tag') ?></span>
                 <div class="list-main"><strong><?= e($b['name']) ?></strong><span><?= $b['ratio'] > $expectedRatio + 0.1 && $b['ratio'] < 1 ? 'Ahead of the month' : 'Monthly limit ' . e(money($b['amount'])) ?></span></div>
                 <div class="tile-actions">
                     <button class="icon-btn sm" type="button" aria-label="Edit" data-open-dialog="budgetDialog" data-title="Edit budget" data-fill="<?= e(json_encode(['category_id' => $b['category_id'], 'amount' => $b['amount'] + 0])) ?>"><?= icon('pencil-square') ?></button>

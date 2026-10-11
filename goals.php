@@ -77,7 +77,7 @@ page_start('Savings goals', 'goals', 'Turn what you want into a plan');
         ?>
         <article class="card tile">
             <div class="tile-head">
-                <span class="dot-ico" style="background:<?= $done ? 'var(--good)' : 'var(--brand-strong)' ?>"><?= icon($done ? 'check-circle' : 'flag') ?></span>
+                <span class="dot-ico" style="--c:<?= $done ? 'var(--good)' : 'var(--brand-strong)' ?>"><?= icon($done ? 'check-circle' : 'flag') ?></span>
                 <div class="list-main"><strong><?= e($g['name']) ?></strong><span><?= $g['target_date'] ? ($days < 0 && !$done ? 'Date passed ' . e(fmt_date($g['target_date'])) : 'By ' . e(fmt_date($g['target_date']))) : 'No deadline' ?></span></div>
                 <div class="tile-actions">
                     <button class="icon-btn sm" type="button" aria-label="Edit" data-open-dialog="goalDialog" data-title="Edit goal" data-fill="<?= e(json_encode(['id' => $g['id'], 'name' => $g['name'], 'target_amount' => $g['target_amount'] + 0, 'saved_amount' => $g['saved_amount'] + 0, 'target_date' => $g['target_date']])) ?>"><?= icon('pencil-square') ?></button>

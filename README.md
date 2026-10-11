@@ -65,7 +65,7 @@ The decision helper answers the question "Can I afford this?" for a purchase pai
 | Front end | Hand-written CSS with custom properties, vanilla JavaScript |
 | Charts | Server-rendered SVG, no chart library |
 | Icons | Heroicons (outline set), inlined as SVG |
-| Font | Plus Jakarta Sans from Google Fonts with system font fallbacks |
+| Font | Inter from Google Fonts with system font fallbacks |
 
 ## Requirements
 

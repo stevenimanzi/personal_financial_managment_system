@@ -31,26 +31,23 @@ if (is_post()) {
 
 auth_start('Sign in');
 ?>
-<h1>Welcome back</h1>
-<p class="sub">Sign in to continue managing your money.</p>
+<h1>Log in to your account</h1>
+<p class="sub">Please enter your details</p>
 
 <?php foreach (take_flashes() as $f): ?>
-    <div class="flash flash-<?= e($f['type']) ?>" style="margin-bottom:18px"><?= icon($f['type'] === 'error' ? 'exclamation-circle' : 'check-circle') ?><span><?= e($f['message']) ?></span></div>
+    <div class="flash flash-<?= e($f['type']) ?>"><?= icon($f['type'] === 'error' ? 'exclamation-circle' : 'check-circle') ?><span><?= e($f['message']) ?></span></div>
 <?php endforeach; ?>
 
 <?php if ($error): ?>
-    <div class="flash flash-error" style="margin-bottom:18px"><?= icon('exclamation-circle') ?><span><?= e($error) ?></span></div>
+    <div class="flash flash-error"><?= icon('exclamation-circle') ?><span><?= e($error) ?></span></div>
 <?php endif; ?>
 
 <form method="post" novalidate>
     <?= csrf_field() ?>
-    <div class="field">
-        <label for="email">Email address</label>
-        <input class="input" type="email" id="email" name="email" value="<?= e($email) ?>" autocomplete="email" placeholder="you@example.com" required autofocus>
-    </div>
+    <?= text_field('email', 'Email', 'envelope', ['type' => 'email', 'value' => $email, 'autocomplete' => 'email', 'placeholder' => 'Enter your email', 'required' => true, 'autofocus' => true]) ?>
     <?= password_field('password', 'Password', 'current-password') ?>
-    <button class="btn btn-primary btn-block" type="submit" style="height:48px">Sign in</button>
+    <button class="btn btn-primary btn-block btn-lg" type="submit">Log in</button>
 </form>
 
-<p class="auth-switch">New here? <a href="register.php">Create an account</a></p>
+<p class="auth-switch">Do not have an account? <a href="register.php">Create one</a></p>
 <?php auth_end();
